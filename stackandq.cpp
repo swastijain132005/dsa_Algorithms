@@ -204,3 +204,42 @@ vector<int> nextSmaller(vector<int>& arr) {
 Next greater element
 
 Just st.top<=Arr [i]
+
+
+    // Next Smaller Element (Right)
+        for (int i = rows - 1; i >= 0; i--) {
+            int j = cols - 1;
+
+            while (j >= 0) {   // FIX: >= 0
+                while (!st1.empty() &&
+                       height[st1.top().first][st1.top().second] >= height[i][j]) {
+                    st1.pop();
+                }
+
+                nse[i][j] = st1.empty() ? cols : st1.top().second;
+                st1.push({i, j});
+                j--;
+            }
+
+            while (!st1.empty()) st1.pop(); // clear stack per row
+        }
+
+        // Previous Smaller Element (Left)
+        for (int i = 0; i < rows; i++) {
+            int j = 0;
+
+            while (j < cols) {
+                while (!st2.empty() &&
+                       height[st2.top().first][st2.top().second] >= height[i][j]) {
+                    st2.pop();
+                }
+
+                pse[i][j] = st2.empty() ? -1 : st2.top().second;
+                st2.push({i, j});
+                j++;   // FIX: j++ instead of j--
+            }
+
+            while (!st2.empty()) st2.pop(); // FIX: clear correct stack
+        }
+
+      
