@@ -106,6 +106,49 @@ int main() {
     bfs(0, adj, n);
 }
 
+//0-1 bfs tc o(v+e) 
+
+deque<int> dq;
+
+    vector<int> dist(n, 1e9);
+
+    dist[src] = 0;
+
+    dq.push_front(src);
+
+    while(!dq.empty()) {
+
+        int node = dq.front();
+        dq.pop_front();
+
+        for(auto [adjNode, wt] : adj[node]) {
+            if(wt<=maxi){
+                wt=0;
+            }
+            else{
+                wt=1;
+            }
+
+            if(dist[node] + wt < dist[adjNode]) {
+
+                dist[adjNode] = dist[node] + wt;
+
+                if(wt == 0) {
+                    dq.push_front(adjNode);
+                }
+                else {
+                    dq.push_back(adjNode);
+                }
+            }
+        }
+    }
+    if (dist[target]<=k){
+        return true;
+    }
+    return false;
+}
+
+
 Topological sorting (directed acyclic graph)
 First childs then me in stack
 #include <bits/stdc++.h>
