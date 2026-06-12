@@ -578,3 +578,38 @@ int kosaraju(int V, vector<vector<int>>& adj)
     return count;
 }
 };
+
+
+//how to find the given subset of nodes is connected graph or not
+
+class Solution {
+public:
+
+    void dfs(int node,
+             vector<vector<int>>& adj,
+             unordered_set<int>& nodes,
+             unordered_set<int>& vis) {
+
+        vis.insert(node);
+
+        for(auto nei : adj[node]) {
+
+            if(nodes.count(nei) && !vis.count(nei)) {
+                dfs(nei, adj, nodes, vis);
+            }
+        }
+    }
+
+    bool isConnectedSubset(vector<vector<int>>& adj,
+                           vector<int>& subset) {
+
+        unordered_set<int> nodes(subset.begin(),
+                                 subset.end());
+
+        unordered_set<int> vis;
+
+        dfs(subset[0], adj, nodes, vis);
+
+        return vis.size() == subset.size();
+    }
+};
