@@ -21,3 +21,5 @@ public:
         return f(x, N, 1);
     }
 };
+
+//permutations 1 and 2
