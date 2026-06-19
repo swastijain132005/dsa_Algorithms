@@ -66,3 +66,77 @@ int main() {
         cout << p << " ";
     }
 }
+
+//segmented sieve 
+
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> simpleSieve(int limit) {
+    vector<bool> isPrime(limit + 1, true);
+    isPrime[0] = isPrime[1] = false;
+
+    for (int i = 2; i * i <= limit; i++) {
+        if (isPrime[i]) {
+            for (int j = i * i; j <= limit; j += i) {
+                isPrime[j] = false;
+            }
+        }
+    }
+
+    vector<int> primes;
+
+    for (int i = 2; i <= limit; i++) {
+        if (isPrime[i]) {
+            primes.push_back(i);
+        }
+    }
+
+    return primes;
+}
+
+vector<int> segmentedSieve(long long L, long long R) {
+
+    long long limit = sqrt(R);
+
+    vector<int> primes = simpleSieve(limit);
+
+    vector<bool> isPrime(R - L + 1, true);
+
+    for (int p : primes) {
+
+        long long start = max(1LL * p * p,
+                              ((L + p - 1) / p) * 1LL * p);
+
+        for (long long j = start; j <= R; j += p) {
+            isPrime[j - L] = false;
+        }
+    }
+
+    if (L == 1)
+        isPrime[0] = false;
+
+    vector<int> ans;
+
+    for (long long i = L; i <= R; i++) {
+        if (isPrime[i - L]) {
+            ans.push_back(i);
+        }
+    }
+
+    return ans;
+}
+
+int main() {
+
+    long long L = 10, R = 50;
+
+    vector<int> primes = segmentedSieve(L, R);
+
+    for (int x : primes) {
+        cout << x << " ";
+    }
+
+    return 0;
+}
+
