@@ -336,6 +336,61 @@ if(!vis[adjNode])
 return sum;
 }
 
+
+class Solution {
+public:
+
+    int prims(int V, vector<vector<pair<int,int>>>& adj) {
+
+        priority_queue<
+            pair<int,int>,
+            vector<pair<int,int>>,
+            greater<pair<int,int>>> pq;
+
+        vector<int> key(V, INT_MAX);
+        vector<int> parent(V, -1);
+        vector<bool> mst(V, false);
+
+        key[0] = 0;
+        pq.push({0, 0});   // {key,node}
+
+        while(!pq.empty()) {
+
+            int node = pq.top().second;
+            pq.pop();
+
+            if(mst[node]) continue;
+
+            mst[node] = true;
+
+            for(auto &edge : adj[node]) {
+
+                int adjNode = edge.first;
+                int wt = edge.second;
+
+                if(!mst[adjNode] && wt < key[adjNode]) {
+
+                    key[adjNode] = wt;
+                    parent[adjNode] = node;
+
+                    pq.push({key[adjNode], adjNode});
+                }
+            }
+        }
+
+        int sum = 0;
+
+        cout << "Edges in MST:\n";
+        for(int i = 1; i < V; i++) {
+            cout << parent[i] << " - " << i
+                 << " (wt = " << key[i] << ")\n";
+            sum += key[i];
+        }
+
+        return sum;
+    }
+};
+
 Dsu by rank and path compression
 #include <bits/stdc++.h>
 using namespace std;
