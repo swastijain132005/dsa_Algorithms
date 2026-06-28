@@ -14,6 +14,43 @@ void dfs(int node, vector<int> adj[], vector<int>& vis) {
     }
 }
 
+//detect cycle in an undirected graph using dfs
+(agar koi node vis hai aur parent bhi nhi h to wo back edge form karega ,hence cycle exists)
+class Solution {
+public:
+    bool dfs(int node, int parent, vector<int> adj[], vector<int>& vis) {
+        vis[node] = 1;
+
+        for (int neigh : adj[node]) {
+
+            if (!vis[neigh]) {
+                if (dfs(neigh, node, adj, vis))
+                    return true;
+            }
+            else if (neigh != parent) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool isCycle(int V, vector<int> adj[]) {
+        vector<int> vis(V, 0);
+
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) {
+                if (dfs(i, -1, adj, vis))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+};
+
+
+
 int main() {
     int n = 5;  // number of nodes
     vector<int> adj[n];
