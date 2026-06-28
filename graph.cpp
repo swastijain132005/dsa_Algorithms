@@ -277,6 +277,7 @@ deque<int> dq;
 
 Topological sorting (directed acyclic graph)
 First childs then me in stack
+multiple topo sorts are possible 
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -312,6 +313,7 @@ vector<int> topoSort(int V, vector<int> adj[]) {
     return result;
 }
 Kahns algorithm (topo sort using bfs)
+//jiska indegree jitna kam hoga wo utna pehle aaega 
 //Topo sort ke questions me jo bhi diya hai pehle usse adjacency list banana hi hoga
 #include <bits/stdc++.h>
 using namespace std;
@@ -389,6 +391,7 @@ vector<int> dijkstra(int V, vector<vector<pair<int,int>>> &adj, int source) {
     return dist;
 }
 Bellman ford algorithm
+//used for finding shortest path from source to all vertices in graph 
 (Works with negative edge weights also)//Helps in detecting neg cycle
 vector<int> bellmanFord(int V, vector<vector<int>>& edges, int src) {
 
@@ -401,13 +404,15 @@ vector<int> bellmanFord(int V, vector<vector<int>>& edges, int src) {
             int u = e[0];
             int v = e[1];
             int w = e[2];
+            
+            //relaxation should be done in order in which edges are given 
 
             if(dist[u] != 1e8 && dist[u] + w < dist[v]) {
                 dist[v] = dist[u] + w;
             }
         }
     }
-
+//v-1 times relax karne ke baad bhi relax ho raha hai then neg cycle present 
     // check negative cycle
     for(auto &e : edges) {
         int u = e[0];
