@@ -184,6 +184,53 @@ int main() {
     bfs(0, adj, n);
 }
 
+//detect cycle in undirected graph using bfs
+
+
+class Solution {
+public:
+    bool bfs(int src, vector<int> adj[], vector<int>& vis) {
+
+        queue<pair<int, int>> q;   // {node, parent}
+
+        vis[src] = 1;
+        q.push({src, -1});
+
+        while (!q.empty()) {
+
+            auto [node, parent] = q.front();
+            q.pop();
+
+            for (int neigh : adj[node]) {
+
+                if (!vis[neigh]) {
+                    vis[neigh] = 1;
+                    q.push({neigh, node});
+                }
+                else if (neigh != parent) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    bool isCycle(int V, vector<int> adj[]) {
+
+        vector<int> vis(V, 0);
+
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) {
+                if (bfs(i, adj, vis))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+};
+
 //0-1 bfs tc o(v+e) 
 
 deque<int> dq;
