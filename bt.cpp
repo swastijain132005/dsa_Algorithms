@@ -1,4 +1,135 @@
-Binary trees
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+
+int main() {
+
+    // Creating nodes
+    Node* root = new Node(1);
+
+    root->left = new Node(2);
+    root->right = new Node(3);
+
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
+
+    root->right->left = new Node(6);
+    root->right->right = new Node(7);
+
+    return 0;
+}
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+
+Node* buildTree() {
+    int val;
+    cin >> val;
+
+    if (val == -1)
+        return nullptr;
+
+    Node* root = new Node(val);
+
+    root->left = buildTree();
+    root->right = buildTree();
+
+    return root;
+}
+
+int main() {
+
+    cout << "Enter tree in preorder (-1 for NULL):\n";
+
+    Node* root = buildTree();
+
+    return 0;
+}
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+
+Node* buildTree() {
+    int val;
+    cout << "Enter root value (-1 for NULL): ";
+    cin >> val;
+
+    if (val == -1)
+        return nullptr;
+
+    Node* root = new Node(val);
+    queue<Node*> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        Node* curr = q.front();
+        q.pop();
+
+        int leftData, rightData;
+
+        cout << "Enter left child of " << curr->data << " (-1 for NULL): ";
+        cin >> leftData;
+
+        if (leftData != -1) {
+            curr->left = new Node(leftData);
+            q.push(curr->left);
+        }
+
+        cout << "Enter right child of " << curr->data << " (-1 for NULL): ";
+        cin >> rightData;
+
+        if (rightData != -1) {
+            curr->right = new Node(rightData);
+            q.push(curr->right);
+        }
+    }
+
+    return root;
+}
+
+int main() {
+    Node* root = buildTree();
+
+    cout << "Binary tree created successfully!\n";
+
+    return 0;
+}
 PRE-ORDER
 void helper(TreeNode* root, vector<int>& ans) {
         if (root == NULL) return;
