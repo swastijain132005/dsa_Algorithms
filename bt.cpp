@@ -142,6 +142,42 @@ void helper(TreeNode* root, vector<int>& ans) {
         vector<int>ans;
 helper(root, ans);
         return ans;
+//iterative inorder
+
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+
+        vector<int> ans;
+        stack<pair<TreeNode*, bool>> st;
+
+        if (root)
+            st.push({root, false});
+
+        while (!st.empty()) {
+
+            auto [node, vis] = st.top();
+            st.pop();
+
+            if (node == NULL)
+                continue;
+
+            if (vis) {
+                ans.push_back(node->val);
+            } else {
+                if (node->right)
+                    st.push({node->right, false});
+
+                st.push({node, true});
+
+                if (node->left)
+                    st.push({node->left, false});
+            }
+        }
+
+        return ans;
+    }
+};
 
 Morris inorder traversal
 #include <bits/stdc++.h>
