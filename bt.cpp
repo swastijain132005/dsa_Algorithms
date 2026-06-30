@@ -180,6 +180,10 @@ public:
 };
 
 Morris inorder traversal
+
+root ke left child ke right me tab tak jao jab tak possible ho then root aur left child ka connection break kar do
+    and now leftchild will become curr root 
+agar left child nahi h to print kar do aur curr ko right me bhej do
 #include <bits/stdc++.h>
 using namespace std;
 
