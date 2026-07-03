@@ -522,6 +522,10 @@ public:
     }
 };
 
+(disjoints sets have their intersaction as null)
+operations -combine two given sets,test if two members belong to same set or not 
+
+
 Dsu by rank and path compression
 #include <bits/stdc++.h>
 using namespace std;
@@ -538,14 +542,17 @@ public:
             parent[i] = i;
         }
     }
-    int findParent(int node) {
+    int findParent(int node,vector<int>&parent) {
         if(node == parent[node])
             return node;
-        return parent[node] = findParent(parent[node]); // path compression
+        return parent[node] = findParent(parent[node],parent); // path compression
     }
-    void unionByRank(int u, int v) {
-        int pu = findParent(u);
-        int pv = findParent(v);
+//agar do ko merge kar rahe hai aur dono ka rank same hai to kisi ek ko parent bana do aur parent ke rank ko badha do 
+//in case of different rank the one have higher rank will become parent 
+//if not then it will form skewed tree leading to inc in tc 
+    void unionByRank(int u, int v,vector<int>&parent,vector<int>&rank) {
+        int pu = findParent(u,parent);
+        int pv = findParent(v,parent);
         if(pu == pv) return;
         if(rankv[pu] < rankv[pv]) {
             parent[pu] = pv;
