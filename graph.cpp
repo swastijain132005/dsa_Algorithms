@@ -356,6 +356,7 @@ vector<int> topoSort(int V, vector<int> adj[]) {
 }
 Cycle detection in a directed graph using bfs
 Count the total no. Of processed nodes ,while pushing in the result  ,if it is less than total nodes at last then cycle exists .
+lc 4002(dijkstra based)
 Dijkstra algorithm
 #include <bits/stdc++.h>
 using namespace std;
