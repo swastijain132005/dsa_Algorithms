@@ -142,6 +142,7 @@ Bfs
 #include <bits/stdc++.h>
 using namespace std;
 //For distance start to target , make queue of pair , second one for distance , in pushstep put dist
+lc 3996
 
 void bfs(int start, vector<int> adj[], int n) {
     vector<int> vis(n, 0);
