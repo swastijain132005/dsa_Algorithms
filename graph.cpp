@@ -394,6 +394,8 @@ vector<int> dijkstra(int V, vector<vector<pair<int,int>>> &adj, int source) {
     return dist;
 }
 
+if we have to also find no. of ways to dest using shortes dist make another ways array just like dist array ,initialize with 0 ways[src]=1;
+and if we d+w==dist[v]  ways[v]=(ways[u]+ways[v])%mod;
 
 O((V+E)logV)
 
