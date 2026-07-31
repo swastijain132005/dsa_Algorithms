@@ -662,6 +662,124 @@ public:
         }
     }
 };
+
+//no. of islands 2
+
+class DSU {
+public:
+    vector<int> parent, size;
+
+    // Constructor
+    DSU(int n) {
+        parent.resize(n);
+        size.resize(n, 1);
+
+        // Initially every node is its own parent
+        for (int i = 0; i < n; i++)
+            parent[i] = i;
+    }
+
+    // Find ultimate parent
+    int findParent(int node) {
+        if (parent[node] == node)
+            return node;
+
+        return parent[node] = findParent(parent[node]); // Path Compression
+    }
+
+    // Union by Size
+    void Union(int u, int v) {
+
+        int pu = findParent(u);
+        int pv = findParent(v);
+
+        // Already in same component
+        if (pu == pv) return;
+
+        // Attach smaller tree to larger tree
+        if (size[pu] < size[pv]) {
+            parent[pu] = pv;
+            size[pv] += size[pu];
+        }
+        else {
+            parent[pv] = pu;
+            size[pu] += size[pv];
+        }
+    }
+};
+
+class Solution {
+public:
+
+    vector<int> numOfIslands(int n, int m, vector<vector<int>> &operators) {
+
+        DSU ds(n * m);
+
+        // Keeps track of which cells are land
+        vector<vector<int>> vis(n, vector<int>(m, 0));
+
+        vector<int> ans;
+
+        int islands = 0;
+
+        // 4 Directions
+        int dr[] = {-1, 0, 1, 0};
+        int dc[] = {0, 1, 0, -1};
+
+        for (auto it : operators) {
+
+            int row = it[0];
+            int col = it[1];
+
+            // If already land, answer remains same
+            if (vis[row][col]) {
+                ans.push_back(islands);
+                continue;
+            }
+
+            // Make this cell land
+            vis[row][col] = 1;
+            islands++;
+
+            // Convert current cell to node number
+            int node = row * m + col;
+
+            // Check all 4 neighbours
+            for (int i = 0; i < 4; i++) {
+
+                int nr = row + dr[i];
+                int nc = col + dc[i];
+
+                // Ignore invalid cells
+                if (nr < 0 || nr >= n || nc < 0 || nc >= m)
+                    continue;
+
+                // Ignore water cells
+                if (vis[nr][nc] == 0)
+                    continue;
+
+                // Convert neighbour to node number
+                int adjNode = nr * m + nc;
+
+                // If they belong to different islands
+                if (ds.findParent(node) != ds.findParent(adjNode)) {
+
+                    // Merge them
+                    ds.Union(node, adjNode);
+
+                    // Two islands become one
+                    islands--;
+                }
+            }
+
+            ans.push_back(islands);
+        }
+
+        return ans;
+    }
+};
+
+
 Dsu by size and path compression
 #include <bits/stdc++.h>
 using namespace std;
