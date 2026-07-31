@@ -395,7 +395,7 @@ vector<int> dijkstra(int V, vector<vector<pair<int,int>>> &adj, int source) {
 }
 
 if we have to also find no. of ways to dest using shortes dist make another ways array just like dist array ,initialize with 0 ways[src]=1;
-and if we d+w==dist[v]  ways[v]=(ways[u]+ways[v])%mod;
+and if we d+w==dist[v]  ways[v]=(ways[u]+ways[v])%mod; lc 1976
 
 O((V+E)logV)
 
@@ -494,6 +494,15 @@ void floydWarshall(vector<vector<int>>& dist, int n) {
         }
     }
 }
+
+for (int i = 0; i < n; i++) {
+    if (dist[i][i] < 0) {
+        cout << "Negative Cycle Exists\n";
+        return;
+    }
+}
+
+cout << "No Negative Cycle\n";
 Prims algorithm
 #include <bits/stdc++.h>using namespace std;
 int prims(int V, vector<vector<pair<int,int>>>& adj) {
