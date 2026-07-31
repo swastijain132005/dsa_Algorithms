@@ -361,6 +361,7 @@ lc 4002(dijkstra based)
 Dijkstra algorithm
 #include <bits/stdc++.h>
 using namespace std;
+O((V+E)logV)
 
 vector<int> dijkstra(int V, vector<vector<pair<int,int>>> &adj, int source) {
  
@@ -392,6 +393,51 @@ vector<int> dijkstra(int V, vector<vector<pair<int,int>>> &adj, int source) {
  
     return dist;
 }
+
+
+O((V+E)logV)
+
+    The set version of Dijkstra is used when you want to efficiently update the shortest distance of a node by removing its old entry and inserting the new one. It uses a balanced BST (std::set) instead of a priority queue.
+
+    class Solution {
+public:
+    vector<int> dijkstra(int V, vector<vector<pair<int,int>>> &adj, int S) {
+
+        vector<int> dist(V, INT_MAX);
+
+        set<pair<int,int>> st;
+
+        dist[S] = 0;
+        st.insert({0, S});
+
+        while (!st.empty()) {
+
+            auto it = *st.begin();
+            st.erase(st.begin());
+
+            int dis = it.first;
+            int node = it.second;
+
+            for (auto &edge : adj[node]) {
+
+                int adjNode = edge.first;
+                int wt = edge.second;
+
+                if (dis + wt < dist[adjNode]) {
+
+                    if (dist[adjNode] != INT_MAX)
+                        st.erase({dist[adjNode], adjNode});
+
+                    dist[adjNode] = dis + wt;
+
+                    st.insert({dist[adjNode], adjNode});
+                }
+            }
+        }
+
+        return dist;
+    }
+};
 Bellman ford algorithm
 //used for finding shortest path from source to all vertices in graph 
 (Works with negative edge weights also)//Helps in detecting neg cycle
