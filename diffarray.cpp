@@ -39,3 +39,36 @@ int main(){
         cout<<x<<" ";
 
 }
+
+vector<int> diff(n,0);
+
+diff[L]+=val;
+
+int steps=(R-L)/K;
+
+int next=L+(steps+1)*K;
+
+if(next<n)
+    diff[next]-=val;
+
+for(int i=K;i<n;i++)
+    diff[i]+=diff[i-K];
+
+
+Different K values
+
+Example
+
+K=2
+
+K=3
+
+K=5
+
+Process queries having the same K together.
+
+A common approach is:
+
+unordered_map<int, vector<Query>> groups;
+
+
