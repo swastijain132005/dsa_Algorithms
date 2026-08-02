@@ -663,7 +663,6 @@ public:
     }
 };
 
-//no. of islands 2
 
 class DSU {
 public:
@@ -707,6 +706,9 @@ public:
         }
     }
 };
+
+//no. of islands 2
+
 
 class Solution {
 public:
