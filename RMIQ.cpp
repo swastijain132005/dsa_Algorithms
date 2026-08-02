@@ -104,3 +104,74 @@ int query(int node,
 }
 
 };
+
+Variant 1
+
+Return
+
+Maximum element index inside a range.
+
+Example
+
+Range=[2,7]
+
+Return
+
+index =5
+
+Variant 2
+
+Return
+
+First position from the left satisfying some condition.
+
+Example
+
+Find first index having value > X
+
+This is solved using Segment Tree.
+
+
+  Variant 3 (Used in LC 2940)
+
+Problem
+
+Need
+
+Leftmost index in the right side whose value is greater than both heights[a] and heights[b].
+
+Instead of checking linearly
+
+Use
+
+Binary Search
+Segment Tree
+
+Together.
+
+int left=b;
+int right=n-1;
+
+int answer=-1;
+
+while(left<=right){
+
+    int mid=(left+right)/2;
+
+    int idx=query(0,0,n-1,left,mid);
+
+    if(idx!=-1 &&
+       heights[idx]>
+       max(heights[a],heights[b])){
+
+        answer=idx;
+
+        right=mid-1;
+    }
+    else{
+
+        left=mid+1;
+    }
+}
+
+O(log²N)
