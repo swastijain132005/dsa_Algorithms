@@ -585,75 +585,35 @@ public:
 operations -combine two given sets,test if two members belong to same set or not 
 
 
-Dsu by rank and path compression
-#include <bits/stdc++.h>
-using namespace std;
 
-#include <bits/stdc++.h>
-using namespace std;
-class DSU {
-public:
-    vector<int> parent, rankv;
-    DSU(int n) {
-        parent.resize(n);
-        rankv.resize(n, 0);
-        for(int i = 0; i < n; i++) {
-            parent[i] = i;
-        }
-    }
-    int findParent(int node,vector<int>&parent) {
-        if(node == parent[node])
-            return node;
-        return parent[node] = findParent(parent[node],parent); // path compression
-    }
+
 //agar do ko merge kar rahe hai aur dono ka rank same hai to kisi ek ko parent bana do aur parent ke rank ko badha do 
 //in case of different rank the one have higher rank will become parent 
 //if not then it will form skewed tree leading to inc in tc 
-    void unionByRank(int u, int v,vector<int>&parent,vector<int>&rank) {
-        int pu = findParent(u,parent);
-        int pv = findParent(v,parent);
-        if(pu == pv) return;
-        if(rankv[pu] < rankv[pv]) {
-            parent[pu] = pv;
-        }
-        else if(rankv[pv] < rankv[pu]) {
-            parent[pv] = pu;
-        }
-        else {
-            parent[pv] = pu;
-            rankv[pu]++;
-        }
-    }
-};
+
+
+class Solution {
+public:
     vector<int> parent, rankv;
 
-    DSU(int n) {
-        parent.resize(n);
-        rankv.resize(n, 0);
-
-        for(int i = 0; i < n; i++) {
-            parent[i] = i;
-        }
-    }
-
     int findParent(int node) {
-        if(node == parent[node])
+        if (node == parent[node])
             return node;
 
-        return parent[node] = findParent(parent[node]); // path compression
+        return parent[node] = findParent(parent[node]);
     }
 
     void unionByRank(int u, int v) {
-
         int pu = findParent(u);
         int pv = findParent(v);
 
-        if(pu == pv) return;
+        if (pu == pv)
+            return;
 
-        if(rankv[pu] < rankv[pv]) {
+        if (rankv[pu] < rankv[pv]) {
             parent[pu] = pv;
         }
-        else if(rankv[pv] < rankv[pu]) {
+        else if (rankv[pv] < rankv[pu]) {
             parent[pv] = pu;
         }
         else {
@@ -661,7 +621,41 @@ public:
             rankv[pu]++;
         }
     }
+
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+
+        int n = edges.size();
+
+        parent.resize(n + 1);
+        rankv.resize(n + 1, 0);
+
+        for (int i = 1; i <= n; i++) {
+            parent[i] = i;
+        }
+
+        for (auto &e : edges) {
+
+            int u = e[0];
+            int v = e[1];
+
+            int pu = findParent(u);
+            int pv = findParent(v);
+
+            // Already connected → this is the redundant edge
+            if (pu == pv) {
+                return {u, v};
+            }
+
+            unionByRank(u, v);
+        }
+
+        return {};
+    }
 };
+   
+    
+
+  
 
 
 class DSU {
