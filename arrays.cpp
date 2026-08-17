@@ -125,3 +125,29 @@ int main() {
     for (int x : nums) cout << x << " ";
     return 0;
 }
+
+//fast and slow pointer in arrays
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int slow=nums[0];
+        int fast=nums[0];
+        slow=nums[slow];
+        fast=nums[nums[fast]];
+        while(slow!=fast){
+            slow=nums[slow];
+            fast=nums[nums[fast]];
+        }
+
+        slow=nums[0];
+
+        while(slow!=fast){
+            slow=nums[slow];
+            fast=nums[fast];
+        }
+
+        return slow;// or fast
+        
+    }
+};
