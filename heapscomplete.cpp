@@ -233,4 +233,177 @@ Overall = O(nlogn)
 
 Space = O(1)
 
+class Solution {
+    int arr[1000];
+    int size;
 
+    int parent(int i) { return (i - 1) / 2; }
+    int left(int i) { return 2 * i + 1; }
+    int right(int i) { return 2 * i + 2; }
+
+    void heapifyDown(int i) {
+        while (i < size) {
+            int smallest = i;
+            int l = left(i);
+            int r = right(i);
+
+            if (l < size && arr[l] < arr[smallest])
+                smallest = l;
+            if (r < size && arr[r] < arr[smallest])
+                smallest = r;
+
+            if (smallest == i)
+                return;
+
+            swap(arr[i], arr[smallest]);
+            i = smallest;
+        }
+    }
+
+    void heapifyUp(int i) {
+        while (i > 0) {
+            int p = parent(i);
+            if (arr[p] > arr[i]) {
+                swap(arr[p], arr[i]);
+                i = p;
+            } else {
+                return;
+            }
+        }
+    }
+
+public:
+    void initializeHeap() {
+        size = 0;
+    }
+
+    void insert(int key) {
+        arr[size] = key;
+        heapifyUp(size);
+        size++;
+    }
+
+    void changeKey(int index, int new_val) {
+        if (index < 0 || index >= size)
+            return;
+
+        int old = arr[index];
+        arr[index] = new_val;
+
+        if (new_val < old)
+            heapifyUp(index);
+        else
+            heapifyDown(index);
+    }
+
+    void extractMin() {
+        if (size == 0)
+            return;
+
+        arr[0] = arr[size - 1];
+        size--;
+        heapifyDown(0);
+    }
+
+    bool isEmpty() {
+        return size == 0;
+    }
+
+    int getMin() {
+        if (size == 0)
+            return -1;
+        return arr[0];
+    }
+
+    int heapSize() {
+        return size;
+    }
+};
+
+
+class Solution {
+    int arr[1000];
+    int size;
+
+    int parent(int i) { return (i - 1) / 2; }
+    int left(int i) { return 2 * i + 1; }
+    int right(int i) { return 2 * i + 2; }
+
+    void heapifyDown(int i) {
+        while (i < size) {
+            int largest = i;
+            int l = left(i);
+            int r = right(i);
+
+            if (l < size && arr[l] > arr[largest])
+                largest = l;
+            if (r < size && arr[r] > arr[largest])
+                largest = r;
+
+            if (largest == i)
+                return;
+
+            swap(arr[i], arr[largest]);
+            i = largest;
+        }
+    }
+
+    void heapifyUp(int i) {
+        while (i > 0) {
+            int p = parent(i);
+            if (arr[p] < arr[i]) {
+                swap(arr[p], arr[i]);
+                i = p;
+            } else {
+                return;
+            }
+        }
+    }
+
+public:
+    void initializeHeap() {
+        size = 0;
+    }
+
+    void insert(int key) {
+        arr[size] = key;
+        heapifyUp(size);
+        size++;
+    }
+
+    void changeKey(int index, int new_val) {
+        if (index < 0 || index >= size)
+            return;
+
+        int old = arr[index];
+        arr[index] = new_val;
+
+        if (new_val > old)
+            heapifyUp(index);
+        else
+            heapifyDown(index);
+    }
+
+    void extractMax() {
+        if (size == 0)
+            return;
+
+        arr[0] = arr[size - 1];
+        size--;
+        heapifyDown(0);
+    }
+
+    bool isEmpty() {
+        return size == 0;
+    }
+
+    int getMax() {
+        if (size == 0)
+            return -1;
+        return arr[0];
+    }
+
+    int heapSize() {
+        return size;
+    }
+};
