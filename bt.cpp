@@ -234,6 +234,66 @@ vector<int> morrisInorder(Node* root) {
     return inorder;
 }
 
+//recover bst question
+class Solution {
+public:
+    void recoverTree(TreeNode* root) {
+       
+        TreeNode* curr = root;
+        TreeNode* prevNode = NULL;   
+        TreeNode* first = NULL;
+        TreeNode* second = NULL;
+
+        while (curr != NULL) {
+
+            // Case 1: No left child
+            if (curr->left == NULL) {
+
+                if (prevNode && curr->val < prevNode->val) {
+                    if (!first){
+                        first = prevNode;}
+                    second = curr;
+                }
+
+                prevNode = curr;
+                curr = curr->right;
+            }
+            else {
+                // Find inorder predecessor
+                TreeNode* pred = curr->left;
+
+                while (pred->right != NULL && pred->right != curr) {
+                    pred = pred->right;
+                }
+
+                // Make thread
+                if (pred->right == NULL) {
+                    pred->right = curr;
+                    curr = curr->left;
+                }
+                // Remove thread
+                else {
+                    pred->right = NULL;
+
+                    if (prevNode && curr->val < prevNode->val) {
+                        if (!first){
+                            first = prevNode;}
+                        second = curr;
+                    }
+
+                    prevNode = curr;
+                    curr = curr->right;
+                }
+            }
+        }
+
+        // swap after traversal ends
+        if (first && second)
+            swap(first->val, second->val);
+    }
+};
+
+
 //iterative preorder
 vector<int> preorderTraversal(TreeNode* root) {
     vector<int> ans;
