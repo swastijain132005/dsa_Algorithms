@@ -50,6 +50,58 @@ public:
     }
 };
 
+
+#include <bits/stdc++.h>
+using namespace std;
+
+//cycle detection in undirected graph using bfs
+bool bfs(int start, vector<int> adj[], vector<int>& vis) {
+
+    queue<pair<int, int>> q;
+
+    vis[start] = 1;
+    q.push({start, -1});
+
+    while (!q.empty()) {
+
+        int node = q.front().first;
+        int parent = q.front().second;
+        q.pop();
+
+        for (auto neighbor : adj[node]) {
+
+            // Not visited → push with current node as parent
+            if (!vis[neighbor]) {
+                vis[neighbor] = 1;
+                q.push({neighbor, node});
+            }
+
+            // Visited and not parent → cycle
+            else if (neighbor != parent) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool isCycleBFS(int V, vector<int> adj[]) {
+
+    vector<int> vis(V, 0);
+
+    // Handles disconnected graph
+    for (int i = 0; i < V; i++) {
+
+        if (!vis[i]) {
+            if (bfs(i, adj, vis))
+                return true;
+        }
+    }
+
+    return false;
+}
+
 //for directed graph 
 
 class Solution {
